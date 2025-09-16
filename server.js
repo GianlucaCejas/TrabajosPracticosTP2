@@ -54,7 +54,8 @@ const server = http.createServer((req, res) => {
 
   //Solicitud GET mediante id
   if (req.method === 'GET' && pathname.startsWith('/api/conceptos/')) {
-  const id = parseInt(pathname.slice(15));
+  const partes = pathname.split('/');
+  const id = parseInt(partes[partes.length - 1]);
 
     if (!isNaN(id)) {
       const concepto = listaConceptos.find(item => item.id === id);
@@ -97,6 +98,24 @@ const server = http.createServer((req, res) => {
     return res.end(JSON.stringify({ mensaje: 'Todos los conceptos han sido eliminados.' }));
   }
 
+  // Solicitud DELETE para eliminar por id
+  if (req.method === 'DELETE' && pathname.startsWith('/api/delete/conceptos/')) {
+    const partes = pathname.split('/');
+    const id = parseInt(partes[partes.length - 1]); 
+    if (isNaN(id)) {
+      res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({ error: 'ID inválido.' }));
+    }
+
+    const indiceConcepto = listaConceptos.findIndex(item => item.id === id);
+    if (indiceConcepto === -1) {
+      res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({ mensaje: 'Concepto no encontrado.' }));
+    }
+    listaConceptos.splice(indiceConcepto, 1);
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    return res.end(JSON.stringify({ mensaje: 'Concepto eliminado.', lista: listaConceptos }));
+  }
 
   // Ruta no encontrada: mostrar 404.html
   fs.readFile(path.join(__dirname, 'public', '404.html'), (err, data) => {

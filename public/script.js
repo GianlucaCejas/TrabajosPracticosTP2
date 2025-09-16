@@ -71,3 +71,47 @@ document.getElementById('eliminarTodoBtn').addEventListener('click', function() 
       });
   }
 });
+
+// Para eliminar un concepto por ID
+document.getElementById('eliminarForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const id = document.getElementById('idConceptoEliminar').value;
+  if (!id) {
+    alert("Por favor ingresa un ID válido.");
+    return;
+  }
+  fetch(`/api/delete/conceptos/${id}`, { method: 'DELETE' })
+    .then(response => response.json())
+    .then(result => {
+      alert(result.mensaje);
+      fetchConceptos();
+    })
+    .catch(error => {
+      console.error("Error al eliminar concepto:", error);
+      alert("Error al eliminar concepto.");
+    });
+  document.getElementById('eliminarForm').reset();
+});
+
+// Para buscar un concepto por ID
+document.getElementById('buscarForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const id = document.getElementById('idConceptoBuscar').value;
+    if (!id) {
+    alert("Por favor ingresa un ID válido.");
+    return;
+  }
+  fetch(`/api/conceptos/${id}`)
+    .then(response => response.json())
+    .then(concepto => {
+      if (concepto.error) {
+        alert(concepto.error);
+      } else {
+        alert(`Concepto encontrado: ${concepto.nombre} - ${concepto.descripcion}`);
+      }
+    })
+    .catch(error => {
+      console.error("Error al buscar concepto:", error);
+      alert("Error al buscar concepto.");
+    });
+});

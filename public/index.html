@@ -25,7 +25,20 @@
     <h2>Listado de conceptos</h2>
     <ul id="listaConceptos"></ul>
     <button id="eliminarTodoBtn">Eliminar todos los conceptos</button>
+    <h3>Eliminar concepto por ID</h3>
+    <form id="eliminarForm">
+      <input type="number" id="idConceptoEliminar" placeholder="ID a eliminar" required>
+      <button type="submit">Eliminar por ID</button>
+    </form>
   </section>
+
+  <section>
+    <h3>Buscar concepto por ID</h3>
+    <form id="buscarForm">
+      <input type="number" id="idConceptoBuscar" placeholder="ID a buscar" required>
+      <button type="submit">Buscar por ID</button>
+    </form>
+    <div id="resultadoBusqueda"></div>
 
   <script src="public/script.js"></script>
 </body>
