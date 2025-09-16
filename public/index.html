@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Manejadno backend</title>
+  <link rel="stylesheet" href="public/styles.css">
+</head>
+<body>
+  <h1>Gestión de conceptos</h1>
+
+  <section>
+    <h2>Agregar concepto</h2>
+    <form id="conceptForm">
+      <label>
+        Nombre:
+        <input type="text" id="nombre" required>
+      </label>
+      <br><br>
+      <label>
+        Descripción:
+        <textarea id="descripcion" required></textarea>
+      </label>
+      <br><br>
+      <button type="submit">Agregar</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Listado de conceptos</h2>
+    <ul id="listaConceptos"></ul>
+  </section>
+
+  <script src="public/script.js"></script>
+</body>
+</html>
