@@ -10,16 +10,12 @@
 
   <section>
     <h2>Agregar concepto</h2>
-    <form id="conceptForm">
-      <label>
-        Nombre:
-        <input type="text" id="nombre" required>
-      </label>
+    <form method="POST" id="conceptoForm">
+      <label>Introducir nombre:</label>
+      <input type="text" id="nombreConcepto" name="nombreConcepto" required>
       <br><br>
-      <label>
-        Descripción:
-        <textarea id="descripcion" required></textarea>
-      </label>
+      <label>Descripción:</label>
+      <textarea id="descripcion" name="descripcion" required></textarea>
       <br><br>
       <button type="submit">Agregar</button>
     </form>

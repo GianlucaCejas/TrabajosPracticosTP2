@@ -2,8 +2,9 @@ const http = require('http');
 const url = require('url');
 const fs = require('fs');
 const path = require('path');
-
 const PORT = process.env.PORT || 3000;
+
+let listaConceptos = [];
 
 const server = http.createServer((req, res) => {
   const parsedUrl = url.parse(req.url, true);
@@ -42,6 +43,28 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  //API Restful
+  if (req.method === 'GET' && pathname === '/api/conceptos') {
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    return res.end(JSON.stringify(listaConceptos));
+  }
+
+  if (req.method === 'POST' && pathname === '/api/conceptos') {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+    });
+    req.on('end', () => {
+        const nuevoConcepto = JSON.parse(body);
+        if (nuevoConcepto && nuevoConcepto.nombre && nuevoConcepto.descripcion) {
+          listaConceptos.push(nuevoConcepto);
+          res.writeHead(201, { 'Content-Type': 'application/json; charset=utf-8' });
+          return res.end(JSON.stringify({ message: 'Concepto agregado.', concepto: nuevoConcepto }));
+        } 
+    });
+    return;
+  }
+
   // Ruta no encontrada: mostrar 404.html
   fs.readFile(path.join(__dirname, 'public', '404.html'), (err, data) => {
     res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -50,6 +73,8 @@ const server = http.createServer((req, res) => {
     }
     res.end(data);
   });
+
+
 });
 
 server.listen(PORT, () => {
