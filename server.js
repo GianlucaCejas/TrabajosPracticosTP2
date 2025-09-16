@@ -5,6 +5,7 @@ const path = require('path');
 const PORT = process.env.PORT || 3000;
 
 let listaConceptos = [];
+let nextId = 1;
 
 const server = http.createServer((req, res) => {
   const parsedUrl = url.parse(req.url, true);
@@ -44,11 +45,33 @@ const server = http.createServer((req, res) => {
   }
 
   //API Restful
+
+  //Solicitud GET
   if (req.method === 'GET' && pathname === '/api/conceptos') {
     res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
     return res.end(JSON.stringify(listaConceptos));
   }
 
+  //Solicitud GET mediante id
+  if (req.method === 'GET' && pathname.startsWith('/api/conceptos/')) {
+  const id = parseInt(pathname.slice(15));
+
+    if (!isNaN(id)) {
+      const concepto = listaConceptos.find(item => item.id === id);
+      if (concepto) {
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        return res.end(JSON.stringify(concepto));
+      } else {
+        res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+        return res.end(JSON.stringify({ error: 'Concepto no encontrado.' }));
+      }
+    } else {
+      res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({ error: 'ID inválido.' }));
+    }
+  }
+
+  //Solicitud POST para agregar un concepto a la lista
   if (req.method === 'POST' && pathname === '/api/conceptos') {
     let body = '';
     req.on('data', chunk => {
@@ -57,13 +80,23 @@ const server = http.createServer((req, res) => {
     req.on('end', () => {
         const nuevoConcepto = JSON.parse(body);
         if (nuevoConcepto && nuevoConcepto.nombre && nuevoConcepto.descripcion) {
+          //Acá le agrego un ID a cada concepto
+          nuevoConcepto.id = nextId++;
           listaConceptos.push(nuevoConcepto);
           res.writeHead(201, { 'Content-Type': 'application/json; charset=utf-8' });
-          return res.end(JSON.stringify({ message: 'Concepto agregado.', concepto: nuevoConcepto }));
+          return res.end(JSON.stringify({ mensaje: 'Concepto agregado.', concepto: nuevoConcepto }));
         } 
     });
     return;
   }
+
+  // Solicitud DELETE para eliminar todos los conceptos
+  if( req.method === 'DELETE' && pathname === '/api/delete/conceptos') {
+    listaConceptos = [];
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    return res.end(JSON.stringify({ mensaje: 'Todos los conceptos han sido eliminados.' }));
+  }
+
 
   // Ruta no encontrada: mostrar 404.html
   fs.readFile(path.join(__dirname, 'public', '404.html'), (err, data) => {
@@ -73,7 +106,6 @@ const server = http.createServer((req, res) => {
     }
     res.end(data);
   });
-
 
 });
 
