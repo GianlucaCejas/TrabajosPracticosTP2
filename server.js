@@ -82,7 +82,7 @@ const server = http.createServer((req, res) => {
         const nuevoConcepto = JSON.parse(body);
         if (nuevoConcepto && nuevoConcepto.nombre && nuevoConcepto.descripcion) {
           //Acá le agrego un ID a cada concepto
-          nuevoConcepto.id = 10000000;
+          nuevoConcepto.id = nextId++;
           listaConceptos.push(nuevoConcepto);
           res.writeHead(201, { 'Content-Type': 'application/json; charset=utf-8' });
           return res.end(JSON.stringify({ mensaje: 'Concepto agregado.', concepto: nuevoConcepto }));
