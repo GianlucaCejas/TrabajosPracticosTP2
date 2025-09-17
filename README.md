@@ -1,31 +1,31 @@
 Casos de prueba realizados:
 1) Al ingresar el concepto y la descripción, debajo debe aparecer el concepto.
-![alt text](image.png)
+![alt text](/Capturas/image.png)
 
 Al tocar Agregar:
-![alt text](image-1.png)
+![alt text](/Capturas/image-1.png)
 
 2) Por cada vez que agreguemos, se va actualizando la lista. Por lo tanto el buscar por ID, va a agilizar la busqueda de los conceptos
-![alt text](image-2.png)
+![alt text](/Capturas/image-2.png)
 
 Al ingresar un ID y tocamos Buscar por ID nos sale una alerta con el concepto con el ID correspondiente:
-![alt text](image-3.png)
+![alt text](/Capturas/image-3.png)
 
 3) Al querer eliminar, hay 2 formas, eliminar todo o eliminar por ID
 
 3) 1) Eliminar por ID
-![alt text](image-4.png) 
+![alt text](/Capturas/image-4.png) 
 
 Al ingrear un ID y tocamos Eliminar por ID, nos va a salir un cartel de alerta confirmando la operación y elimina el concepto
-![alt text](image-5.png)
+![alt text](/Capturas/image-5.png)
 
 3) 2) Eliminar todo
 
 Al tocar el botón Eliminar todos los conceptos nos sale una advertencia para confirmar eliminar todo
-![alt text](image-6.png)
+![alt text](/Capturas/image-6.png)
 
 y luego los elimina 
-![alt text](image-7.png)
+![alt text](/Capturas/image-7.png)
 
 -----------------------------------------------------------------------------------
 
